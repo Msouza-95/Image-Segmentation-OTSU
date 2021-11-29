@@ -21,10 +21,10 @@ def quality(f,K,M ,p ):
     #clusters intermediarios  
     if K>2 :
         d= K-1
-        for k in range(1,d):
+        for k in range(1,d-1):
             a =f[k-1]+1
             b=f[k]+1
-            for j in range(a,b):
+            for j in range(a,b-1):
                 P[k]+=p[j]
                 m[k]+=j*p[j]
                 

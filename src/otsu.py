@@ -8,11 +8,12 @@ from matplotlib import image
 import numpy as np
 from matplotlib import pyplot
 
-imagePath = 'D:/Projetos/Engenharia de Programas/Image-Segmentation-OTSU/Data/MulherBrancaN4.jpg'
+imagePath = 'D:/Projetos/Engenharia de Programas/Image-Segmentation-OTSU/Data/HomembrancoN1.jpg'
 img = image.imread(imagePath)
 #precisa realizar a leitura dos dados
 
 n = int(img.size/3)
+print(n)
 R, G , B = np.reshape(img[:,:,0], n), np.reshape(img[:,:,1],n),np.reshape(img[:,:,2],n)
 C = [0]*n
 M = 256
@@ -52,9 +53,18 @@ tm = K-1
 fMax = [0]*tm
 f = [0]*tm
 
+
 if K==2:
+    for  f[0] in range(0,M):
+        iter += 1
+        Q= q.quality(f,K,M,p)
+        if Q>Qmax:
+            Qmax = Q
+            for k in range(0,K-1):
+                fMax[k] = f[k]
+elif K==3:
     for  f[0] in range(0,M-1):
-        for f[0] in range(f[0]+1, M):
+        for f[1] in range(f[0]+1, M):
             iter += 1
             Q= q.quality(f,K,M,p)
             if Q>Qmax:
@@ -62,21 +72,21 @@ if K==2:
                 for k in range(0,K-1):
                     fMax[k] = f[k]
 
-elif K==3:
+elif K==4:
     for  f[0] in range(0,M-2):
-        for  f[0] in range(f[0]+1,M-1):
-            for  f[0] in range(f[0]+1,M):
+        for  f[1] in range(f[0]+1,M-1):
+            for  f[2] in range(f[1]+1,M):
                 iter += 1
                 Q= q.quality(f,K,M,p)
                 if Q>Qmax:
                     Qmax = Q
                     for m in range(0,K-1):
                         fMax[m] = f[m]
-elif K==4:
+elif K==5:
     for  f[0] in range(0,M-3):
-            for  f[0] in range(f[0]+1,M-2):
-                for  f[0] in range(f[0]+1,M-1):
-                    for f[0] in range(f[0]+1,M):
+            for  f[1] in range(f[0]+1,M-2):
+                for  f[2] in range(f[1]+1,M-1):
+                    for f[3] in range(f[2]+1,M):
                         iter += 1
                         Q= q.quality(f,K,M,p)
                         if Q>Qmax:
@@ -87,11 +97,10 @@ elif K==4:
 
 end_time = t.time()
 
-time = round(end_time - iterativo_time,4)
+time = end_time - iterativo_time
 
-tempoPorIteracao = round(time/iter, 4)
+tempoPorIteracao = time/iter
 print("#----------------------------------------#")
-
 print("tempo de inicialização", tmpInit )
 print('Iteracao',iter)
 print("tempo por iteração ",tempoPorIteracao)
